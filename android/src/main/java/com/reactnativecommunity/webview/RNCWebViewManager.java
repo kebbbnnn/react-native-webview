@@ -718,13 +718,13 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     public void onPageFinished(WebView webView, String url) {
       super.onPageFinished(webView, url);
 
-      if (!mLastLoadFailed) {
-        RNCWebView reactWebView = (RNCWebView) webView;
+      // if (!mLastLoadFailed) {
+      //   RNCWebView reactWebView = (RNCWebView) webView;
 
-        reactWebView.callInjectedJavaScript();
+      //   reactWebView.callInjectedJavaScript();
 
-        emitFinishEvent(webView, url);
-      }
+      //   emitFinishEvent(webView, url);
+      // }
     }
 
     @Override
@@ -905,6 +905,15 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
       ) {
         return;
       }
+
+      if (!mLastLoadFailed && newProgress == 100) {
+        RNCWebView reactWebView = (RNCWebView) webView;
+
+        reactWebView.callInjectedJavaScript();
+
+        emitFinishEvent(webView, url);
+      }
+      
       WritableMap event = Arguments.createMap();
       event.putDouble("target", webView.getId());
       event.putString("title", webView.getTitle());
